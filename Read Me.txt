@@ -1,0 +1,160 @@
+Read Me
+
+Step by step for Maze Game:
+
+Directory Structure:
+
+src
+  |
+  *--index.html
+  |
+  *--js
+  |  |
+  |  *-mazegame.js
+  |  *-mazegame.test.js
+  |
+  *--css
+     |
+     *--style.css
+
+Create Git repo for project
+
+Create HTML Branch
+HTML:
+Create HTML Page, create game container (game -> maze + controls -> maze map)
+Create div for tiles and for user and goal
+Create div for success message
+Create div for how to play
+
+Check in HTML Branch
+
+Create CSS Branch
+CSS:
+Link HTML to CSS
+Positioning:
+Body tag - center
+Select and import google font
+Body.success for when game is complete
+Center maze container
+Maze and controls flex
+Strip default padding
+Add margin to p tag
+Make maze map relative, then margin: 0px auto;
+Make layer absolute
+Control the layer positions with JS: position absolute, ensures layers, tiles and sprites will be positioned relative to the map
+Tiles and border:
+tiles border
+Add default floor and wall colours
+Player and Goal:
+Make player and goal slightly smaller than tiles
+Change player and goal colours
+Movement:
+Add transition Animation
+Goal Animation:
+Make message 0 Oppacity and absolute
+Add padding, colors, and width
+Add a rule that sets the goal message to opacity:1 when the body has the success class.
+
+Build Level Map:
+JS Branch
+Create array for levels
+Level will have 3 properties: Maze, Start and End
+Define the level object
+Create Empty Maze - map as an empty array
+Add the rows, 0 is floor, 1 is wall
+Add player with x and y coordinates
+Same with Goal
+Add the theme to the level
+
+Build Game Object Constructor:
+To connect our game object to a specific DOM element, let’s add a parameter that takes an id to an existing element. The constructor will find the element for that idand store it in a property called el
+Establish floor and walls tiles
+Set tile dimension 
+Set map and theme
+Make copy of player and goal
+
+Map Setup:
+Setup function - iterate through the 2D array in myGame, ask the helper function for a tile DOM element at the current x/y location, request a floor tile when it encounters a 0, request a wall tile when it encounters a 1
+Helper function - create a tile of the requested type, position each tile in the DOM based on the x and y values, size up each tile based on the game object’s tile dimensions attribute
+Create populateMap method
+Add the theme class to the maze container 
+Populate the tile layer
+Loop through top to bottom using Vertical for (var y = 0; y < this.map.length; ++y)
+Inner loop for horizontal
+Access the map array
+Store tile names 
+
+Tile and Sprite Creation:
+Create method that will create tiles - pass into it horizontal and vertical as well as the tile type
+Set the classname to equal either floor or wall
+Size and Location - set tile height and width
+Set left to horizontal and top to vertical, use tile dimesnsion to set set the location
+
+Create and populate map:
+In populate map function create tile
+Append the tile
+
+Testing the map function:
+Create initialize function
+Create new instance of the game object
+Add populate map function
+Call function
+
+Make Player and Goal:
+Make player function
+Get X and Y co ordinates
+Create player or goal sprite
+Add border radius to make them circles
+Add sprites layer
+Call function
+Create reference to player in init function
+
+Keyboard Listener:
+Make move player method
+Create keyboard event listener 
+Add listener to game function
+
+Keyboard Inputs:
+use prevent default to stop unwanted actions
+If statement for arrow keys keycodes are left: 37, up: 38, right: 39, down: 40
+Switch statement for arrow keys
+
+Add Player movements:
+Create methods for moving left, down, right and up
+Moving up, changes y position
+Update the players position  y-=1
+Update players top, set vertical position
+Multiply y position by tile dimension
+Create a method for updating vertical, for up and down
+Create similar method for moving down, but +1 Y
+Now create a horizontal method using X
+Create move left and right methods
+
+Adding Boundries:
+To stop the player leaving the boundries x and y should never be less than 0
+x should never be higher than the length of the arrays
+y should never be higher than the amount of arrays
+Only move left if myGame.player.x is greater than zero.
+Only move right if myGame.player.x is less than the last possible index in its row array.
+Only move up if myGame.player.y is greater than zero.
+Only move down if myGame.player.y is less than the index of the last row in the 2D array.
+
+Wall Detection:
+Checking for wall or floor tiles
+Look for the next tile, for left would be x -1
+Walls are 1, floors 0, so if 1 return 
+For up it would y -1
+Right x +1
+Down Y + 1
+
+Reaching the goal:
+Method for player reaching Goal
+Add to keyboard listener
+Grab body class
+Check if player is at x and y for goal
+if so change to success
+if not remove success
+
+
+Accesibility:
+
