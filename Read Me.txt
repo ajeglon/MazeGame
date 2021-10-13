@@ -155,6 +155,11 @@ Check if player is at x and y for goal
 if so change to success
 if not remove success
 
+Add on screen buttons:
+Add divs for the buttons
+Style the buttons
+
+
 
 Accesibility:
 
