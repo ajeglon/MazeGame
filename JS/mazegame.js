@@ -19,6 +19,7 @@ levels[0] = {
     y: 4
   },
   theme: 'default',
+  levelDim: 64,
 };
 // second level
 levels[1] = {
@@ -40,6 +41,7 @@ levels[1] = {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   ],
   theme: 'grassland',
+  levelDim: 48,
   player: {
     x: 2,
     y: 4
@@ -74,7 +76,8 @@ levels[2] = {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   ],
-  theme: 'dungeon',
+  theme: 'desert',
+  levelDim: 32,
   player: {
     x: 2,
     y: 4
@@ -91,7 +94,7 @@ levels[3] = {
     [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -114,6 +117,7 @@ levels[3] = {
     [1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   ],
   theme: 'lava',
+  levelDim: 24,
   player: {
     x: 2,
     y: 4
@@ -128,7 +132,7 @@ function Game(id, level) {
   this.el = document.getElementById(id);
   this.level_idx = 0;
   this.tileTypes = ['floor', 'wall'];
-  this.tileDim = 64;
+  this.tileDim = level.levelDim;
   this.map = level.map;
   this.theme = level.theme;
   this.player = { ...level.player };
@@ -219,10 +223,12 @@ Game.prototype.keyboardListener = function () {
 
 Game.prototype.moveUp = function () {
   if (this.player.y == 0) {
+    this.collide();
     return;
   }
   let nextTile = this.map[this.player.y - 1][this.player.x];
   if (nextTile == 1) {
+    this.collide();
     return;
   }
   this.player.y -= 1;
@@ -232,10 +238,12 @@ Game.prototype.moveUp = function () {
 
 Game.prototype.moveDown = function () {
   if (this.player.y == this.map.length - 1) {
+    this.collide();
     return;
   }
   let nextTile = this.map[this.player.y + 1][this.player.x];
   if (nextTile == 1) {
+    this.collide();
     return;
   }
   this.player.y += 1;
@@ -245,11 +253,13 @@ Game.prototype.moveDown = function () {
 
 Game.prototype.moveLeft = function (sprite) {
   if (this.player.x == 0) {
+    this.collide();
     return;
   }
 
   let nextTile = this.map[this.player.y][this.player.x - 1];
   if (nextTile == 1) {
+    this.collide();
     return;
   }
 
@@ -260,11 +270,13 @@ Game.prototype.moveLeft = function (sprite) {
 
 Game.prototype.moveRight = function (sprite) {
   if (this.player.x == this.map[this.player.y].length - 1) {
+    this.collide();
     return;
   }
   let nextTile = this.map[this.player.y][this.player.x + 1];
 
   if (nextTile == 1) {
+    this.collide();
     return;
   }
   this.player.x += 1;
@@ -370,11 +382,20 @@ Game.prototype.changeLevel = function () {
   }
   let level = levels[this.level_idx];
   this.map = level.map;
-
+  this.tileDim = level.levelDim;
   this.theme = level.theme;
   this.player = { ...level.player };
   this.goal = { ...level.goal };
 }
+
+Game.prototype.collide = function () {
+  this.player.el.className += ' collide';
+  let delay = 100;
+  let obj = this;
+  window.setTimeout(function () {
+    obj.player.el.className = 'player';
+  }, delay);
+};
 
 function init() {
 

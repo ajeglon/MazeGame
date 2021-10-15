@@ -155,9 +155,40 @@ Check if player is at x and y for goal
 if so change to success
 if not remove success
 
+Add Aditional Levels:
+Create based off level 1
+Add level index
+Create level themes
+
+Switch Levels:
+Refactor init function (place levels method, add listener method)
+Method that listens for clicks on maze
+Call new method in listener
+If player is not on goal, return
+Create change level method
+Create loop so highest level will go back to lowest
+Retrieve level 
+Set theme
+Make fresh copies of player and goal
+Change level on click
+Clear old tiles
+Add new tiles
+Call check goal
+
+Collision effects:
+Add keyframe woble CSS
+Make collide class
+Make collide method
+Only want to wobble for a small time so add delay 
+
 Add on screen buttons:
 Add divs for the buttons
 Style the buttons
+Add triangles to buttons
+
+Make buttons responsive:
+Add listener for buttons
+Add button listener for each direction
 
 
 
